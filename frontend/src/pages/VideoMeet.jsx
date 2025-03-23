@@ -477,16 +477,36 @@ export default function NewVideoMeet() {
               getPermissions={getPermissions}
               videos={videos}
             />
-            
-            {/* Caption area */}
-            <div className={styles.captionsContainer}>
-              <Speech 
-                localVideoref={localVideoref} 
-                getPermissions={getPermissions} 
-                socketRef={socketRef} 
-                username={username} 
-              />
-            </div>
+
+            <ControlBar 
+              localVideoref={localVideoref}
+              getPermissions={getPermissions}
+              setVideo={setVideo}
+              setAudio={setAudio}
+              setScreen={setScreen}
+              setModal={setModal}
+              showModal={showModal}
+              screen={screen}
+              video={video}
+              audio={audio}
+              newMessages={newMessages}
+              screenAvailable={screenAvailable}
+            />
+
+            <ChatComponent
+             messages={messages}
+              showModal={showModal}
+              sendMessage={sendMessage}
+              message={message}
+              setMessage={setMessage}
+            />
+            <Speech 
+              localVideoref={localVideoref}
+              getPermissions={getPermissions}
+              socketRef={socketRef}
+              username={username}
+            />
+          </div>
           </div>
           
           {/* Chat sidebar */}
