@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import { Badge, IconButton, TextField } from "@mui/material";
@@ -30,10 +29,11 @@ export function ControlBar({
   let handleVideo = () => {
     setVideo(!video);
   };
+  
   let handleAudio = () => {
     setAudio(!audio);
-    // getUserMedia();
   };
+  
   let handleScreen = () => {
     setScreen(!screen);
   };
@@ -60,30 +60,30 @@ export function ControlBar({
   return (
     <>
       <div className={styles.buttonContainers}>
-        <IconButton onClick={handleVideo} style={{ color: "white" }}>
+        <IconButton onClick={handleVideo} style={{ color: "black" }}>
           {video === true ? <VideocamIcon /> : <VideocamOffIcon />}
         </IconButton>
         <IconButton onClick={handleEndCall} style={{ color: "red" }}>
           <CallEndIcon />
         </IconButton>
-        <IconButton onClick={handleAudio} style={{ color: "white" }}>
+        <IconButton onClick={handleAudio} style={{ color: "black" }}>
           {audio === true ? <MicIcon /> : <MicOffIcon />}
         </IconButton>
 
         {screenAvailable === true ? (
-          <IconButton onClick={handleScreen} style={{ color: "white" }}>
+          <IconButton onClick={handleScreen} style={{ color: "black" }}>
             {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
           </IconButton>
         ) : (
           <></>
         )}
 
-        <Badge badgeContent={newMessages} max={999} color="orange">
+        <Badge badgeContent={newMessages} max={999} color="error">
           <IconButton
             onClick={() => setModal(!showModal)}
-            style={{ color: "white" }}
+            style={{ color: "black" }}
           >
-            <ChatIcon />{" "}
+            <ChatIcon />
           </IconButton>
         </Badge>
       </div>

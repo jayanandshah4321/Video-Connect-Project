@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { Badge, IconButton, TextField } from "@mui/material";
 import { Button } from "@mui/material";
+import VideocamIcon from "@mui/icons-material/Videocam";
 
 import server from "../environment";
 import useMediaPermissions from "../Hooks/mediaPermission.jsx";
@@ -423,21 +424,48 @@ export default function NewVideoMeet() {
           }
   }, [screen])
 
-  
+  let handleVideo = () => {
+    const newVideoState = !video;
+    setVideo(newVideoState);
+    
+    // Directly toggle video tracks
+    if (window.localStream) {
+      window.localStream.getVideoTracks().forEach(track => {
+        track.enabled = newVideoState;
+      });
+    }
+  };
+
+  let handleAudio = () => {
+    const newAudioState = !audio;
+    setAudio(newAudioState);
+    
+    // Directly toggle audio tracks
+    if (window.localStream) {
+      window.localStream.getAudioTracks().forEach(track => {
+        track.enabled = newAudioState;
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       {askForUsername ? (
         <div className={styles.lobbyContainer}>
-          <h2>Enter into Lobby</h2>
+          <h2>Join Meeting</h2>
           <TextField
             id="outlined-basic"
-            label="Username"
+            label="Enter your name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             variant="outlined"
           />
-          <Button variant="contained" onClick={handleConnect}>
-            Connect
+          <Button 
+            variant="contained" 
+            onClick={handleConnect}
+            startIcon={<VideocamIcon />}
+          >
+            Join Now
           </Button>
           <video ref={localVideoref} autoPlay muted className={styles.localVideo}></video>
         </div>
@@ -449,10 +477,49 @@ export default function NewVideoMeet() {
               getPermissions={getPermissions}
               videos={videos}
             />
-          </div>
+            
+            {/* Caption area */}
+            <div className={styles.captionsContainer}>
+              <Speech 
+                localVideoref={localVideoref} 
+                getPermissions={getPermissions} 
+                socketRef={socketRef} 
+                username={username} 
+              />
+            </div>
           </div>
           
-        
+          {/* Chat sidebar */}
+          {showModal && (
+            <div className={styles.chatRoom}>
+              <ChatComponent
+                messages={messages}
+                showModal={showModal}
+                sendMessage={sendMessage}
+                message={message}
+                setMessage={setMessage}
+              />
+            </div>
+          )}
+          
+          {/* Controls */}
+          <div className={styles.controlsContainer}>
+            <ControlBar
+              localVideoref={localVideoref}
+              getPermissions={getPermissions}
+              setVideo={handleVideo}
+              setAudio={handleAudio}
+              setScreen={setScreen}
+              setModal={setModal}
+              showModal={showModal}
+              screen={screen}
+              video={video}
+              audio={audio}
+              newMessages={newMessages}
+              screenAvailable={screenAvailable}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
