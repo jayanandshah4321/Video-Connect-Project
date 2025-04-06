@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch()
 import speech_recognition as sr
 import io
 import base64
@@ -14,7 +16,7 @@ AudioSegment.converter = "/opt/homebrew/bin/ffmpeg"  # Explicitly set the path t
 AudioSegment.ffprobe = "/opt/homebrew/bin/ffprobe"  # Explicitly set the path to ffprobe
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")  
 
 recognizer = sr.Recognizer()
 
@@ -91,8 +93,5 @@ def handle_audio(data):
         traceback.print_exc()
 
 if __name__ == "__main__":
-    import eventlet
-    import eventlet.wsgi
-    socketio.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)), allow_unsafe_werkzeug=True)
-
+    socketio.run(app,debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 7000)))
 
