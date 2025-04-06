@@ -1,5 +1,6 @@
 import express from "express";
 import { createServer } from "node:http";
+import dotenv from 'dotenv';
 
 import { Server } from "socket.io";
 
@@ -12,6 +13,7 @@ import userRoutes from "./routes/users.routes.js";
 const app = express();
 const server = createServer(app);
 const io = connectToSocket(server);
+dotenv.config();
 
 
 app.set("port", (process.env.PORT || 8000))
