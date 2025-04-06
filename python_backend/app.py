@@ -6,6 +6,8 @@ import traceback
 from flask import Flask
 from flask_socketio import SocketIO, emit
 from pydub import AudioSegment  # Install using: pip install pydub
+import os
+
 
 from pydub import AudioSegment
 AudioSegment.converter = "/opt/homebrew/bin/ffmpeg"  # Explicitly set the path to ffmpeg
@@ -89,4 +91,7 @@ def handle_audio(data):
         traceback.print_exc()
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, port=8000)
+    import eventlet
+    import eventlet.wsgi
+    socketio.run(app, debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+
