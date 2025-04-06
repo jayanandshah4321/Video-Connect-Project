@@ -1,0 +1,37 @@
+# Virtual Environment
+venv/
+env/
+.env/
+.venv/
+
+# Python virtual environment
+venv/
+/venv/
+*/venv/
+**/venv/
+python_backend/venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environment variables
+.env
+.env.*
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
