@@ -1,22 +1,28 @@
-import { Server } from "socket.io"
-import { io as ClientIO } from "socket.io-client";
 import dotenv from 'dotenv';
 dotenv.config();
+import { Server } from "socket.io"
+import { io as ClientIO } from "socket.io-client";
+
 let connections = {}
 let messages = {}
 let timeOnline = {}
 
+// console.log("ALL ENV VARS:", process.env);
+console.log("SPEECH_BACKEND_URL", process.env.SPEECH_BACKEND_URL);
 const SPEECH_BACKEND_URL = process.env.SPEECH_BACKEND_URL;
 const speechSocket = ClientIO(SPEECH_BACKEND_URL, {
     transports: ["websocket"],
-    reconnectionAttempts: 5,
-    timeout: 5000,
   });
   
 
 speechSocket.on("connect", () => {
     console.log("🗣️ Connected to Speech Recognition Backend");
 });
+
+speechSocket.on("disconnect", () => {
+    console.error("❌ Disconnected from Speech Recognition Backend");
+}
+);
 
 speechSocket.on("connect_error", (err) => {
     console.error("❌ WebSocket connect error:", err.message);

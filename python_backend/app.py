@@ -55,6 +55,9 @@ def convert_audio(audio_chunk):
 def handle_connect():
     print("✅ Client connected")
 
+@socketio.on("disconnect")
+def handle_disconnect():
+    print("❌ Client disconnected")
 @socketio.on("audio_stream")
 def handle_audio(data):
     try:
@@ -91,6 +94,11 @@ def handle_audio(data):
     except Exception as e:
         print("❌ Error in audio processing:")
         traceback.print_exc()
+
+@app.route("/")
+def index():
+    return "Speech backend is running."
+
 
 if __name__ == "__main__":
     socketio.run(app,debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 7000)))
