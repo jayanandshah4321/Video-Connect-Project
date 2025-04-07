@@ -4,7 +4,7 @@ import { Badge, IconButton, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 
-import server from "../environment";
+import socketServer from "../environment";
 import useMediaPermissions from "../Hooks/mediaPermission.jsx";
 import styles from "../styles/videoComponent.module.css";
 import { VideoGridComponent } from "../components/VideoGridComponent.jsx";
@@ -203,13 +203,13 @@ export default function NewVideoMeet() {
   };
 
   let connectToSocketServer = () => {
-    socketRef.current = io.connect(server, { secure: false });
+    socketRef.current = io.connect(socketServer, { secure: false });
     console.log("this is socket in main file:",socketRef.current)
 
     socketRef.current.on("signal", gotMessageFromServer);
 
     socketRef.current.on("connect", () => {
-      console.log("Connected to server");
+      console.log("Connected to socketServer");
 
       socketRef.current.emit("join-call", window.location.href);
 
