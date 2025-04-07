@@ -21,15 +21,19 @@ app.use(cors());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
+app.get('/', (req, res) => {
+    res.send('Hello from Render!');
+});
+
 app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
     app.set("mongo_user")
     const connectionDb = await mongoose.connect(process.env.MONGO_URI)
     console.log(`MONGO Connected DB HOst: ${connectionDb.connection.host}`)
-    server.listen(app.get("port"), () => {
-        console.log("LISTENIN ON PORT 8000")
+    const PORT = app.get("port");
+    server.listen(PORT, () => {
+        console.log(`✅ Server is listening on port ${PORT}`);
     });
-
 }
 start();
