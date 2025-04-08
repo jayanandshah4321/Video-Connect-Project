@@ -27,6 +27,7 @@ const login = async (req, res) => {
 
             user.token = token;
             await user.save();
+            console.log("user logged in :", user)
             return res.status(httpStatus.OK).json({ token: token })
         } else {
             return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid Username or password" })
@@ -57,7 +58,7 @@ const register = async (req, res) => {
         });
 
         await newUser.save();
-
+        console.log("user registered :", newUser)
         res.status(httpStatus.CREATED).json({ message: "User Registered" })
 
     } catch (e) {
@@ -91,7 +92,7 @@ const addToHistory = async (req, res) => {
         })
 
         await newMeeting.save();
-
+        console.log("added to history :", newMeeting)
         res.status(httpStatus.CREATED).json({ message: "Added code to history" })
     } catch (e) {
         res.json({ message: `Something went wrong ${e}` })
