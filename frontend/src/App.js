@@ -7,6 +7,7 @@ import VideoMeetComponent from './pages/VideoMeet';
 import HomeComponent from './pages/home';
 import History from './pages/history';
 import Transcription from './pages/Transcription';
+import { Analytics } from '@vercel/analytics/react';
 function App() {
   return (
     <div className="App">
@@ -30,6 +31,9 @@ function App() {
         </AuthProvider>
 
       </Router>
+      <div>
+      <Analytics />
+      </div>
     </div>
   );
 }
